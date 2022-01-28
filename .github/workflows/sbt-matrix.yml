@@ -1,0 +1,43 @@
+name: SBT command on matrix Java/Scala versions
+
+on:
+  workflow_call:
+    inputs:
+      java:
+        type: string
+        required: true
+      scala:
+        type: string
+        required: true
+      cmd:
+        type: string
+        required: true
+
+jobs:
+  cmd:
+    name: Scala ${{ matrix.scala }} & JDK ${{ matrix.java }}
+    runs-on: ubuntu-20.04
+    strategy:
+      # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
+      matrix:
+        java: ${{ fromJson(inputs.java) }}
+        scala: ${{ fromJson(inputs.scala) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
+          fetch-depth: 0
+
+      - name: Coursier Cache
+        uses: coursier/cache-action@v6.3
+
+      - name: Install AdoptOpenJDK
+        uses: coursier/setup-action@v1.1.2
+        with:
+          jvm: adopt:${{ matrix.java }}
+
+      - name: Run sbt command
+        run: ${{ inputs.cmd }}
+        env:
+          SCALA_VERSION: ${{ matrix.scala }}
