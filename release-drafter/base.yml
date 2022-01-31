@@ -1,0 +1,31 @@
+name-template: '$REPOSITORY $NEXT_PATCH_VERSION'
+tag-template: '$NEXT_PATCH_VERSION'
+filter-by-commitish: true
+
+change-template: '- $TITLE #$NUMBER by @$AUTHOR'
+template: |
+  ## Changes
+
+  $CHANGES
+
+  ## :heart: Thanks to our premium sponsors!
+
+  <div align="center">
+    <a href="https://informaticon.com/"><img src="https://www.playframework.com/assets/images/home/sponsors/61220b8306493af6a21b7db17de7f4b2-informaticon-logo-full-color.png" width="250"></a>
+    <a href="https://cedarlakeventures.com/"><img src="https://www.playframework.com/assets/images/home/sponsors/bec2b526c9ce52c051f9089a10044867-cedar-lake-ventures.png" width="250"></a>
+    <a href="https://iterable.com/"><img src="https://www.playframework.com/assets/images/home/sponsors/61ddb4c3665b621e6672181f97196748-iterable.png" width="250"></a>
+  </div>
+
+  If you find Open Source project useful for work, please consider asking your company to support it by <a href="https://www.playframework.com/sponsors">becoming a sponsor</a>.
+  You can also individually sponsor the project by <a href="https://www.playframework.com/sponsors">becoming a backer</a>.
+
+  <div align="center">
+    <a href="https://opencollective.com/playframework" target="_blank">
+      <img src="https://opencollective.com/playframework/donate/button@2x.png?color=blue" width="250" />
+    </a>
+  </div>
+  
+  ## :bow: Thanks to our contributors
+  
+  Finally, thanks to the community for their help with detailed bug reports, discussions about new features and pull request reviews. This project is only possible due to the help we had from amazing contributors.
+  Special thanks to all code contributors who helped with this particular release (they are listed below)!
