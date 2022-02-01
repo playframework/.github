@@ -2,15 +2,6 @@ name-template: 'Version $RESOLVED_VERSION'
 tag-template: '$NEXT_MINOR_VERSION'
 filter-by-commitish: true
 version-resolver:
-  major:
-    labels:
-      - 'major'
-  minor:
-    labels:
-      - 'minor'
-  patch:
-    labels:
-      - 'patch'
   default: minor
 
 change-template: '- $TITLE #$NUMBER by @$AUTHOR'
