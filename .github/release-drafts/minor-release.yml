@@ -1,4 +1,4 @@
-_extends: release-drafts/major-release.yml
+_extends: .github:.github/release-drafts/major-release.yml
 
 name-template: '???'
 tag-template: '$NEXT_PATCH_VERSION'
