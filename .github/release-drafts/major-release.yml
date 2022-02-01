@@ -1,4 +1,4 @@
-name-template: '???'
+name-template: 'Version $RESOLVED_VERSION'
 tag-template: '$NEXT_MINOR_VERSION'
 filter-by-commitish: true
 version-resolver:
