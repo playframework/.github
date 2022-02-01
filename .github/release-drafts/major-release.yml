@@ -1,6 +1,8 @@
-name-template: '$REPOSITORY $NEXT_PATCH_VERSION'
-tag-template: '$NEXT_PATCH_VERSION'
+name-template: '???'
+tag-template: '$NEXT_MINOR_VERSION'
 filter-by-commitish: true
+version-resolver:
+  default: minor
 
 change-template: '- $TITLE #$NUMBER by @$AUTHOR'
 template: |
