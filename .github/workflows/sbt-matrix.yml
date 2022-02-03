@@ -9,9 +9,29 @@ on:
       scala:
         type: string
         required: true
+      include:
+        type: string
+        required: false
+        default: "[]"
+      exclude:
+        type: string
+        required: false
+        default: "[]"
       cmd:
         type: string
         required: true
+      env:
+        type: string
+        required: false
+        default: ""
+      cache-key:
+        type: string
+        required: false
+        default: ""
+      cache-path:
+        type: string
+        required: false
+        default: ""
 
 jobs:
   cmd:
@@ -22,6 +42,8 @@ jobs:
       matrix:
         java: ${{ fromJson(inputs.java) }}
         scala: ${{ fromJson(inputs.scala) }}
+        include: ${{ fromJson(inputs.include) }}
+        exclude: ${{ fromJson(inputs.exclude) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,8 +51,19 @@ jobs:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
 
+      - name: Set ENV variables
+        if: inputs.env != ''
+        run: echo '${{ inputs.env }}' >> $GITHUB_ENV
+
       - name: Coursier Cache
         uses: coursier/cache-action@v6.3
+
+      - name: Custom Cache
+        uses: actions/cache@v2
+        if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
+        with:
+          key: ${{ inputs.cache-key }}
+          path: ${{ inputs.cache-path }}
 
       - name: Install AdoptOpenJDK
         uses: coursier/setup-action@v1.1.2
