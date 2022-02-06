@@ -1,5 +1,0 @@
-name-template: '???'
-tag-template: '$NEXT_PATCH_VERSION'
-version-resolver:
-  default: patch
-_extends: .github:.github/release-drafts/major-release.yml

@@ -1,0 +1,4 @@
+tag-template: '$NEXT_MAJOR_VERSION'
+version-resolver:
+  default: major
+_extends: .github:.github/release-drafts/base.yml
