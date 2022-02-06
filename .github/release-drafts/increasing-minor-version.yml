@@ -1,0 +1,4 @@
+tag-template: '$NEXT_MINOR_VERSION'
+version-resolver:
+  default: minor
+_extends: .github:.github/release-drafts/base.yml
