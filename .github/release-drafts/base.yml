@@ -1,7 +1,7 @@
 name-template: 'Version $RESOLVED_VERSION'
 tag-template: '$RESOLVED_VERSION'
 filter-by-commitish: true
-change-template: '- $TITLE #$NUMBER by @$AUTHOR'
+change-template: '- #$NUMBER $TITLE by @$AUTHOR'
 template: |
   ## Changes
 
