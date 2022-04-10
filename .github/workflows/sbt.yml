@@ -1,4 +1,4 @@
-name: SBT command on single Java verion
+name: SBT command on single Java version
 
 on:
   workflow_call:
