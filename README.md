@@ -28,15 +28,20 @@ This workflow is used for running a single SBT task. It can to use for running a
 |------------|-------|--------------------|---------|----------------------|
 | cmd        | 1.0.0 | :exclamation:      | -       | Running command      |
 | java       | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version   |
+| scala      | 1.0.0 | :heavy_minus_sign: | ''      | _Scala_ version      |
 | cache-key  | 1.0.0 | :heavy_minus_sign: | ''      | Key of custom cache  |
 | cache-path | 1.0.0 | :heavy_minus_sign: | ''      | Path of custom cache |
+| env        | 1.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars      |
 
 **How to use**:
 
 ```yaml
 uses: playframework/.github/.github/workflows/sbt.yml@v1
 with:
-  cmd: sbt test
+  cmd: sbt "-Dvar1=$VAR_1" "-Dvar2=$VAR_2" ++$SCALA_VERSION test
+  env: |
+    VAR_1=value
+    VAR_2=value
 ```
 
 ### Java/Scala matrix SBT task
@@ -53,11 +58,17 @@ This workflow is used for running an SBT task on matrix of Java/Scala versions.
 
 **Parameters**:
 
-| Parameter | Since | Required        | Default | Description        | 
-|-----------|-------|-----------------|---------|--------------------|
-| cmd       | 1.0.0 | :exclamation:   | -       | Running command    |
-| java      | 1.0.0 | :exclamation:   | -       | _AdoptJDK_ version |
-| scala     | 1.0.0 | :exclamation:   | -       | _Scala_ version    |
+| Parameter  | Since | Required           | Default | Description          | 
+|------------|-------|--------------------|---------|----------------------|
+| cmd        | 1.0.0 | :exclamation:      | -       | Running command      |
+| java       | 1.0.0 | :exclamation:      | -       | _AdoptJDK_ version   |
+| scala      | 1.0.0 | :exclamation:      | -       | _Scala_ version      |
+| include    | 1.0.0 | :heavy_minus_sign: | []      | Matrix include's     |
+| exclude    | 1.0.0 | :heavy_minus_sign: | []      | Matrix exclude's     |
+| cache-key  | 1.0.0 | :heavy_minus_sign: | ''      | Key of custom cache  |
+| cache-path | 1.0.0 | :heavy_minus_sign: | ''      | Path of custom cache |
+| env        | 1.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars      |
+
 
 **How to use**:
 
@@ -68,7 +79,10 @@ with:
     [ "11", "8" ]
   scala: >-
     [ "2.12.15", "2.13.8", "3.0.2" ]
-  cmd: sbt test
+  cmd: sbt "-Dvar1=$VAR_1" "-Dvar2=$VAR_2" ++$SCALA_VERSION test
+  env: |
+    VAR_1=value
+    VAR_2=value
 ```
 
 ### Publishing to Sonatype

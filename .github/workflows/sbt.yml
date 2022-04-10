@@ -7,9 +7,17 @@ on:
         type: string
         required: false
         default: 8
-      cmd:
-        required: true
+      scala:
         type: string
+        required: false
+        default: ""
+      cmd:
+        type: string
+        required: true
+      env:
+        type: string
+        required: false
+        default: ""
       cache-key:
         type: string
         required: false
@@ -30,6 +38,10 @@ jobs:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
 
+      - name: Set ENV variables
+        if: inputs.env != ''
+        run: echo '${{ inputs.env }}' >> $GITHUB_ENV
+
       - name: Coursier Cache
         uses: coursier/cache-action@v6.3
 
@@ -47,3 +59,5 @@ jobs:
 
       - name: Run sbt command
         run: ${{ inputs.cmd }}
+        env:
+          SCALA_VERSION: ${{ inputs.scala }}
