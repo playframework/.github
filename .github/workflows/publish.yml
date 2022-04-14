@@ -31,10 +31,10 @@ jobs:
       - name: Coursier Cache
         uses: coursier/cache-action@v6.3
 
-      - name: Install AdoptOpenJDK
+      - name: Install Adoptium Temurin OpenJDK
         uses: coursier/setup-action@v1.1.2
         with:
-          jvm: adopt:${{ inputs.java }}
+          jvm: adoptium:${{ inputs.java }}
 
       - name: Publish artifcats
         run: sbt ci-release

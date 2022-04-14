@@ -65,10 +65,10 @@ jobs:
           key: ${{ inputs.cache-key }}
           path: ${{ inputs.cache-path }}
 
-      - name: Install AdoptOpenJDK
+      - name: Install Adoptium Temurin OpenJDK
         uses: coursier/setup-action@v1.1.2
         with:
-          jvm: adopt:${{ matrix.java }}
+          jvm: adoptium:${{ matrix.java }}
 
       - name: Run sbt command
         run: ${{ inputs.cmd }}
