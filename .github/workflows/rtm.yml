@@ -1,0 +1,12 @@
+name: Mark Pull Request as Ready To Merge
+
+on:
+  workflow_call:
+
+jobs:
+  cmd:
+    name: Ready To Merge
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Ready To Merge
+        run: echo 'Ready To Merge'
