@@ -9,6 +9,7 @@ This repository contains a few configurations of GitHub features. For example a 
 * [Java/Scala matrix SBT task](#javascala-matrix-sbt-task)
 * [Publishing to Sonatype](#publishing-to-sonatype)
 * [Validate Binary Compatibility](#validate-binary-compatibility)
+* [Mark Pull Request as Ready To Merge](#mark-pull-request-as-ready-to-merge)
 
 ### Single SBT task
 
@@ -149,6 +150,29 @@ This workflow is used for validate binary compatibility the current version.
 
 ```yaml
 uses: playframework/.github/.github/workflows/binary-check.yml@v1
+```
+
+### Mark Pull Request as Ready To Merge
+
+This workflow is used for mark pull request as ready to merge and **should be last** in the workflows chain.
+
+:warning: For using this workflow don't forget to configure the `needs` ([GA docs](https://docs.github.com/en/actions/using-workflows/advanced-workflow-features#creating-dependent-jobs)) attribute to make this workflow run last.
+
+**Path**: [`.github/workflows/rtm.yml`](.github/workflows/rtm.yml)
+
+**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+
+
+**No Parameters**
+
+**How to use**:
+
+```yaml
+needs: # Should be latest
+  - "check-code-style"
+  - "..."
+  - "tests"
+uses: playframework/.github/.github/workflows/rtm.yml@v1
 ```
 
 ## GitHub Actions Starter workflows
