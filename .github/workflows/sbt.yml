@@ -43,6 +43,7 @@ jobs:
         run: echo '${{ inputs.env }}' >> $GITHUB_ENV
 
       - name: Coursier Cache
+        id: coursier-cache
         uses: coursier/cache-action@v6.3
 
       - name: Custom Cache
