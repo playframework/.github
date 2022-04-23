@@ -58,6 +58,21 @@ jobs:
         with:
           jvm: adoptium:${{ inputs.java }}
 
+      - name: Print helpful configs and files and show environment
+        run: |
+          echo "$ cat /etc/sbt/jvmopts"
+          cat /etc/sbt/jvmopts || true
+          echo ""
+          echo "$ cat /etc/sbt/sbtopts"
+          cat /etc/sbt/sbtopts || true
+          echo ""
+          echo "$ env"
+          env
+          echo "ls -alFhR ~/.ivy2 | grep play | grep jar"
+          ls -alFhR ~/.ivy2 | grep play | grep jar || true
+          echo "ls -alFhR ~/.cache/coursier | grep play | grep jar"
+          ls -alFhR ~/.cache/coursier | grep play | grep jar || true
+
       - name: Run sbt command
         run: ${{ inputs.cmd }}
         env:
