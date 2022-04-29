@@ -1,22 +1,11 @@
-name: SBT command on matrix Java/Scala versions
+name: SBT command with matrix
 
 on:
   workflow_call:
     inputs:
-      java:
+      matrix:
         type: string
         required: true
-      scala:
-        type: string
-        required: true
-      include:
-        type: string
-        required: false
-        default: "[]"
-      exclude:
-        type: string
-        required: false
-        default: "[]"
       cmd:
         type: string
         required: true
@@ -35,15 +24,11 @@ on:
 
 jobs:
   cmd:
-    name: Scala ${{ matrix.scala }} & JDK ${{ matrix.java }}
+    name: ${{ format(format('{{{0}}}', toJSON(matrix)), '') }}
     runs-on: ubuntu-20.04
     strategy:
       # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
-      matrix:
-        java: ${{ fromJson(inputs.java) }}
-        scala: ${{ fromJson(inputs.scala) }}
-        include: ${{ fromJson(inputs.include) }}
-        exclude: ${{ fromJson(inputs.exclude) }}
+      matrix: ${{ fromJson(inputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -72,7 +57,7 @@ jobs:
       - name: Install Adoptium Temurin OpenJDK
         uses: coursier/setup-action@v1.2.0-M3
         with:
-          jvm: adoptium:${{ matrix.java }}
+          jvm: adoptium:${{ matrix['{0}JAVA'] }}
 
       - name: Print helpful configs and files and show environment
         run: |
@@ -91,8 +76,7 @@ jobs:
 
       - name: Run sbt command
         run: ${{ inputs.cmd }}
-        env:
-          SCALA_VERSION: ${{ matrix.scala }}
+        env: ${{ fromJSON(format(format('{{{0}}}', toJSON(matrix)), 'MATRIX_')) }}
 
       - name: Cleanup before cache
         shell: bash
