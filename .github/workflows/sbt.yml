@@ -44,7 +44,10 @@ jobs:
 
       - name: Coursier Cache
         id: coursier-cache
-        uses: coursier/cache-action@v6.3
+        uses: coursier/cache-action@v6.3.1
+
+      - name: Saving cache-hit-coursier env variable
+        run: echo 'CACHE_HIT_COURSIER=${{ steps.coursier-cache.outputs.cache-hit-coursier }}' >> $GITHUB_ENV
 
       - name: Custom Cache
         uses: actions/cache@v2
