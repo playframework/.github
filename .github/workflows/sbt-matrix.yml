@@ -51,7 +51,7 @@ jobs:
         uses: actions/cache@v2
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
-          key: ${{ inputs.cache-key }}
+          key: ${{ format(inputs.cache-key, matrix['{0}JAVA']) }}
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
