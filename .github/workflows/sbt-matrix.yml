@@ -5,7 +5,8 @@ on:
     inputs:
       java:
         type: string
-        required: true
+        required: false
+        default: 8
       add-dimensions:
         type: string
         required: false
