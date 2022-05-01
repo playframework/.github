@@ -6,7 +6,7 @@ on:
       java:
         type: string
         required: false
-        default: 8
+        default: "[ 8 ]"
       add-dimensions:
         type: string
         required: false
