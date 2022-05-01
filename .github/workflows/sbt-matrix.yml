@@ -1,4 +1,4 @@
-name: SBT command with matrix
+name: Command with a default JVM, coursier caching and an optional matrix
 
 on:
   workflow_call:
@@ -99,7 +99,7 @@ jobs:
         run: |
           jq -n -r '$in | to_entries|map("MATRIX_\(.key|ascii_upcase)=\(.value|tostring)")|.[]' --argjson in '${{ toJSON(matrix) }}' >> $GITHUB_ENV
 
-      - name: Run sbt command
+      - name: Run command
         run: ${{ inputs.cmd }}
         env:
           CACHE_HIT_COURSIER: ${{ steps.coursier-cache.outputs.cache-hit-coursier }}
