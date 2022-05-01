@@ -6,9 +6,6 @@ on:
       java:
         type: string
         required: true
-      scala:
-        type: string
-        required: true
       add-dimensions:
         type: string
         required: false
@@ -47,7 +44,7 @@ jobs:
     - id: prepare-matrix
       run: |
         add_dimensions=$(echo -n '${{ inputs.add-dimensions }}' | sed 's/^.*{//;s/}.*$//') # Remove leading { and trailing }
-        echo ::set-output name=matrix::{\"java\":$(echo '${{ inputs.java }}'), \"scala\":$(echo '${{ inputs.scala }}'),$(echo ${add_dimensions:+$add_dimensions,})\"include\":$(echo '${{ inputs.include }}'), \"exclude\":$(echo '${{ inputs.exclude }}')}
+        echo ::set-output name=matrix::{\"java\":$(echo '${{ inputs.java }}'), $(echo ${add_dimensions:+$add_dimensions,})\"include\":$(echo '${{ inputs.include }}'), \"exclude\":$(echo '${{ inputs.exclude }}')}
   cmd:
     name: ${{ toJSON(matrix) }}
     needs: prepare-matrix
