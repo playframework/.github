@@ -3,9 +3,24 @@ name: SBT command with matrix
 on:
   workflow_call:
     inputs:
-      matrix:
+      java:
         type: string
         required: true
+      scala:
+        type: string
+        required: true
+      add-dimensions:
+        type: string
+        required: false
+        default: "{}"
+      include:
+        type: string
+        required: false
+        default: "[]"
+      exclude:
+        type: string
+        required: false
+        default: "[]"
       cmd:
         type: string
         required: true
@@ -23,12 +38,23 @@ on:
         default: ""
 
 jobs:
+  prepare-matrix:
+    name: Prepare Matrix
+    runs-on: ubuntu-20.04
+    outputs:
+      matrix: ${{ steps.prepare-matrix.outputs.matrix }}
+    steps:
+    - id: prepare-matrix
+      run: |
+        add_dimensions=$(echo -n '${{ inputs.add-dimensions }}' | sed 's/^.*{//;s/}.*$//') # Remove leading { and trailing }
+        echo ::set-output name=matrix::{\"java\":$(echo '${{ inputs.java }}'), \"scala\":$(echo '${{ inputs.scala }}'),$(echo ${add_dimensions:+$add_dimensions,})\"include\":$(echo '${{ inputs.include }}'), \"exclude\":$(echo '${{ inputs.exclude }}')}
   cmd:
-    name: ${{ format(format('{{{0}}}', toJSON(matrix)), '') }}
+    name: ${{ toJSON(matrix) }}
+    needs: prepare-matrix
     runs-on: ubuntu-20.04
     strategy:
       # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
-      matrix: ${{ fromJson(inputs.matrix) }}
+      matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -44,20 +70,17 @@ jobs:
         id: coursier-cache
         uses: coursier/cache-action@v6.3
 
-      - name: Saving cache-hit-coursier env variable
-        run: echo 'CACHE_HIT_COURSIER=${{ steps.coursier-cache.outputs.cache-hit-coursier }}' >> $GITHUB_ENV
-
       - name: Custom Cache
         uses: actions/cache@v2
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
-          key: ${{ format(inputs.cache-key, matrix['{0}JAVA']) }}
+          key: ${{ format(inputs.cache-key, matrix.java) }}
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
         uses: coursier/setup-action@v1.2.0-M3
         with:
-          jvm: adoptium:${{ matrix['{0}JAVA'] }}
+          jvm: adoptium:${{ matrix.java }}
 
       - name: Print helpful configs and files and show environment
         run: |
@@ -74,9 +97,14 @@ jobs:
           echo "ls -alFhR ~/.cache/coursier | grep play | grep jar"
           ls -alFhR ~/.cache/coursier | grep play | grep jar || true
 
+      - name: Convert matrix elements to environment variables
+        run: |
+          jq -n -r '$in | to_entries|map("MATRIX_\(.key|ascii_upcase)=\(.value|tostring)")|.[]' --argjson in '${{ toJSON(matrix) }}' >> $GITHUB_ENV
+
       - name: Run sbt command
         run: ${{ inputs.cmd }}
-        env: ${{ fromJSON(format(format('{{{0}}}', toJSON(matrix)), 'MATRIX_')) }}
+        env:
+          CACHE_HIT_COURSIER: ${{ steps.coursier-cache.outputs.cache-hit-coursier }}
 
       - name: Cleanup before cache
         shell: bash
