@@ -3,10 +3,18 @@ name: Command with a default JVM, coursier caching and an optional matrix
 on:
   workflow_call:
     inputs:
+      ref:
+        type: string
+        required: false
+        default: ''
       java:
         type: string
         required: false
-        default: "[ 8 ]"
+        default: "8"
+      scala:
+        type: string
+        required: false
+        default: ""
       add-dimensions:
         type: string
         required: false
@@ -45,7 +53,18 @@ jobs:
     - id: prepare-matrix
       run: |
         add_dimensions=$(echo -n '${{ inputs.add-dimensions }}' | sed 's/^.*{//;s/}.*$//') # Remove leading { and trailing }
-        echo ::set-output name=matrix::{\"java\":$(echo '${{ inputs.java }}'), $(echo ${add_dimensions:+$add_dimensions,})\"include\":$(echo '${{ inputs.include }}'), \"exclude\":$(echo '${{ inputs.exclude }}')}
+        # input java/scala | replace whitespaces/commas/quotes by newline | drop empty | quotation | join by comma
+        java=$(echo -n '${{inputs.java}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
+        scala=$(echo -n '${{inputs.scala}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
+        matrix="{"
+        matrix+="\"java\": [$java],"
+        [[ ! -z "$scala" ]] && matrix+="\"scala\": [$scala],"
+        matrix+="$(echo ${add_dimensions:+$add_dimensions,})"
+        matrix+="\"include\":$(echo -n '${{ inputs.include }}'),"
+        matrix+="\"exclude\":$(echo -n '${{ inputs.exclude }}')"
+        matrix+="}"
+        echo $matrix
+        echo ::set-output name=matrix::$(echo $matrix)
   cmd:
     name: ${{ toJSON(matrix) }}
     needs: prepare-matrix
@@ -55,10 +74,11 @@ jobs:
       matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
+          ref: ${{ inputs.ref }}
 
       - name: Set ENV variables
         if: inputs.env != ''
@@ -82,6 +102,7 @@ jobs:
 
       - name: Print helpful configs and files and show environment
         run: |
+          echo "Matrix: ${{ toJSON(matrix) }}"
           echo "$ cat /etc/sbt/jvmopts"
           cat /etc/sbt/jvmopts || true
           echo ""
