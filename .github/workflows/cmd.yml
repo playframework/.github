@@ -1,14 +1,24 @@
-name: SBT command on matrix Java/Scala versions
+name: Command with a default JVM, coursier caching and an optional matrix
 
 on:
   workflow_call:
     inputs:
+      ref:
+        type: string
+        required: false
+        default: ''
       java:
         type: string
-        required: true
+        required: false
+        default: "8"
       scala:
         type: string
-        required: true
+        required: false
+        default: ""
+      add-dimensions:
+        type: string
+        required: false
+        default: "{}"
       include:
         type: string
         required: false
@@ -34,22 +44,41 @@ on:
         default: ""
 
 jobs:
+  prepare-matrix:
+    name: Prepare Matrix
+    runs-on: ubuntu-20.04
+    outputs:
+      matrix: ${{ steps.prepare-matrix.outputs.matrix }}
+    steps:
+    - id: prepare-matrix
+      run: |
+        add_dimensions=$(echo -n '${{ inputs.add-dimensions }}' | sed 's/^.*{//;s/}.*$//') # Remove leading { and trailing }
+        # input java/scala | replace whitespaces/commas/quotes by newline | drop empty | quotation | join by comma
+        java=$(echo -n '${{inputs.java}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
+        scala=$(echo -n '${{inputs.scala}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
+        matrix="{"
+        matrix+="\"java\": [$java],"
+        [[ ! -z "$scala" ]] && matrix+="\"scala\": [$scala],"
+        matrix+="$(echo ${add_dimensions:+$add_dimensions,})"
+        matrix+="\"include\":$(echo -n '${{ inputs.include }}'),"
+        matrix+="\"exclude\":$(echo -n '${{ inputs.exclude }}')"
+        matrix+="}"
+        echo $matrix
+        echo ::set-output name=matrix::$(echo $matrix)
   cmd:
-    name: Scala ${{ matrix.scala }} & JDK ${{ matrix.java }}
+    name: ${{ toJSON(matrix) }}
+    needs: prepare-matrix
     runs-on: ubuntu-20.04
     strategy:
       # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
-      matrix:
-        java: ${{ fromJson(inputs.java) }}
-        scala: ${{ fromJson(inputs.scala) }}
-        include: ${{ fromJson(inputs.include) }}
-        exclude: ${{ fromJson(inputs.exclude) }}
+      matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
+          ref: ${{ inputs.ref }}
 
       - name: Set ENV variables
         if: inputs.env != ''
@@ -59,14 +88,11 @@ jobs:
         id: coursier-cache
         uses: coursier/cache-action@v6.3
 
-      - name: Saving cache-hit-coursier env variable
-        run: echo 'CACHE_HIT_COURSIER=${{ steps.coursier-cache.outputs.cache-hit-coursier }}' >> $GITHUB_ENV
-
       - name: Custom Cache
         uses: actions/cache@v2
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
-          key: ${{ inputs.cache-key }}
+          key: ${{ format(inputs.cache-key, matrix.java) }}
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
@@ -76,6 +102,7 @@ jobs:
 
       - name: Print helpful configs and files and show environment
         run: |
+          echo "Matrix: ${{ toJSON(matrix) }}"
           echo "$ cat /etc/sbt/jvmopts"
           cat /etc/sbt/jvmopts || true
           echo ""
@@ -89,10 +116,14 @@ jobs:
           echo "ls -alFhR ~/.cache/coursier | grep play | grep jar"
           ls -alFhR ~/.cache/coursier | grep play | grep jar || true
 
-      - name: Run sbt command
+      - name: Convert matrix elements to environment variables
+        run: |
+          jq -n -r '$in | to_entries|map("MATRIX_\(.key|ascii_upcase)=\(.value|tostring)")|.[]' --argjson in '${{ toJSON(matrix) }}' >> $GITHUB_ENV
+
+      - name: Run command
         run: ${{ inputs.cmd }}
         env:
-          SCALA_VERSION: ${{ matrix.scala }}
+          CACHE_HIT_COURSIER: ${{ steps.coursier-cache.outputs.cache-hit-coursier }}
 
       - name: Cleanup before cache
         shell: bash
