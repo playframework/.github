@@ -30,11 +30,11 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 
 | Parameter         | Since | Required           | Default | Description                                       | 
 |-------------------|-------|--------------------|---------|---------------------------------------------------|
-| ref               | 2.0.0 | :exclamation:      | ''      | Branch, tag or SHA for checkout                   |
+| ref               | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                   |
 | cmd               | 2.0.0 | :exclamation:      | -       | Running command                                   |
-| java              | 2.0.0 | :exclamation:      | 8       | _AdoptJDK_ version (space/comma delimited list)   |
-| scala             | 2.0.0 | :exclamation:      | ''      | _Scala_ version (space/comma delimited list)      |
-| add-dimensions    | 2.0.0 | :exclamation:      | ''      | Other matrix dimensions (json object)             |
+| java              | 2.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version (space/comma delimited list)   |
+| scala             | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)      |
+| add-dimensions    | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)             |
 | include           | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)              |
 | exclude           | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)              |
 | cache-key         | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                               |
@@ -76,7 +76,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 
 | Parameter | Since | Required           | Default | Description                        |
 |-----------|-------|--------------------|---------|------------------------------------|
-| ref       | 2.0.0 | :exclamation:      | ''      | Branch, tag or SHA for checkout    |
+| ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
 | java      | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version                 |
 
 **Secrets**:
@@ -117,7 +117,7 @@ This workflow is used for validate binary compatibility the current version.
 
 | Parameter | Since | Required           | Default | Description                        | 
 |-----------|-------|--------------------|---------|------------------------------------|
-| ref       | 2.0.0 | :exclamation:      | ''      | Branch, tag or SHA for checkout    |
+| ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
 | java      | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version                 |
 
 **How to use**:
