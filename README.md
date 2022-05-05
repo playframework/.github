@@ -91,7 +91,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/publish.yml@v1
+uses: playframework/.github/.github/workflows/publish.yml@v2
 secrets:
   username: ${{ secrets.SONATYPE_USERNAME }}
   password: ${{ secrets.SONATYPE_PASSWORD }}
@@ -123,7 +123,7 @@ This workflow is used for validate binary compatibility the current version.
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/binary-check.yml@v1
+uses: playframework/.github/.github/workflows/binary-check.yml@v2
 ```
 
 ### Mark Pull Request as Ready To Merge
@@ -146,7 +146,7 @@ needs: # Should be latest
   - "check-code-style"
   - "..."
   - "tests"
-uses: playframework/.github/.github/workflows/rtm.yml@v1
+uses: playframework/.github/.github/workflows/rtm.yml@v2
 ```
 
 ### Clear Cache
@@ -165,7 +165,7 @@ This workflow is used for clearing cache. Run this workflow manually from _Actio
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/trigger-cache-invalidation.yml@v1
+uses: playframework/.github/.github/workflows/trigger-cache-invalidation.yml@v2
 ```
 
 ## GitHub Actions Starter workflows
