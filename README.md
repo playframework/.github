@@ -79,24 +79,10 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 | ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
 | java      | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version                 |
 
-**Secrets**:
-
-| Secret         | Since | Required        | Default | Description               | 
-|----------------|-------|-----------------|---------|---------------------------|
-| username       | 1.0.0 | :exclamation:   | -       | Sonatype account username |
-| password       | 1.0.0 | :exclamation:   | -       | Sonatype account password |
-| pgp_passphrase | 1.0.0 | :exclamation:   | -       | Password for GPG key      |
-| pgp_secret     | 1.0.0 | :exclamation:   | -       | Base64 of GPG private key |
-
 **How to use**:
 
 ```yaml
 uses: playframework/.github/.github/workflows/publish.yml@v2
-secrets:
-  username: ${{ secrets.SONATYPE_USERNAME }}
-  password: ${{ secrets.SONATYPE_PASSWORD }}
-  pgp_passphrase: ${{ secrets.PGP_PASSPHRASE }}
-  pgp_secret: ${{ secrets.PGP_SECRET }}
 ```
 
 ### Validate Binary Compatibility
