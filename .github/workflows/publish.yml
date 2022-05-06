@@ -11,15 +11,6 @@ on:
         type: string
         required: false
         default: 8
-    secrets:
-      username:
-        required: true
-      password:
-        required: true
-      pgp_passphrase:
-        required: true
-      pgp_secret:
-        required: true
 
 jobs:
   cmd:
