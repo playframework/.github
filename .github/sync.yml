@@ -32,3 +32,8 @@ group:
 #      playframework/play-java-angular-seed
 #      playframework/play-scala-angular-seed
 
+  # Scalafmt settings
+  - files:
+      - .scalafmt.conf
+    repos: |
+      playframework/play-soap
