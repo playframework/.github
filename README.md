@@ -21,7 +21,6 @@ This repository contains a few configurations of GitHub features. For example a 
 * [Publishing to Sonatype](#publishing-to-sonatype)
 * [Validate Binary Compatibility](#validate-binary-compatibility)
 * [Mark Pull Request as Ready To Merge](#mark-pull-request-as-ready-to-merge)
-* [Clear Cache](#clear-cache)
 
 ### Universal CMD task
 
@@ -145,25 +144,6 @@ needs: # Should be latest
   - "..."
   - "tests"
 uses: playframework/.github/.github/workflows/rtm.yml@v2
-```
-
-### Clear Cache
-
-This workflow is used for clearing cache. Run this workflow manually from _Actions_ page.
-
-**Path**: [`.github/workflows/trigger-cache-invalidation.yml`](.github/workflows/trigger-cache-invalidation.yml)
-
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
-
-**Uses actions**:
-* [Actions/Cache](https://github.com/actions/cache)
-
-**No Parameters**
-
-**How to use**:
-
-```yaml
-uses: playframework/.github/.github/workflows/trigger-cache-invalidation.yml@v2
 ```
 
 ## GitHub Actions Starter workflows
