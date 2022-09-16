@@ -89,14 +89,14 @@ jobs:
         uses: coursier/cache-action@v6.3
 
       - name: Custom Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
           key: ${{ format(inputs.cache-key, matrix.java) }}
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
-        uses: coursier/setup-action@v1.2.0
+        uses: coursier/setup-action@v1.2
         with:
           jvm: adoptium:${{ matrix.java }}
 
