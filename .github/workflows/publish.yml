@@ -16,7 +16,7 @@ jobs:
   cmd:
     name: JDK ${{ inputs.java }}
     runs-on: ubuntu-20.04
-    if: ${{ github.repository_owner == 'playframework' }}
+    if: ${{ github.repository_owner == 'playframework' || github.repository_owner == 'sbt' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
