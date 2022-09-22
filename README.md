@@ -43,7 +43,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 |-------------------|-------|--------------------|---------|---------------------------------------------------|
 | ref               | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                   |
 | cmd               | 2.0.0 | :exclamation:      | -       | Running command                                   |
-| java              | 2.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version (space/comma delimited list)   |
+| java              | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list)   |
 | scala             | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)      |
 | add-dimensions    | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)             |
 | include           | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)              |
@@ -58,8 +58,8 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 ```yaml
 uses: playframework/.github/.github/workflows/cmd.yml@v2
 with:
-  java: 11, 8
-  scala: 2.12.15, 2.13.8, 3.0.2
+  java: 17, 11
+  scala: 2.12.17, 2.13.9, 3.2.0
   add-dimensions: >-
     {
       "color": [ "red", "green"]
@@ -88,7 +88,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 | Parameter | Since | Required           | Default | Description                        |
 |-----------|-------|--------------------|---------|------------------------------------|
 | ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
-| java      | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version                 |
+| java      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                 |
 
 **How to use**:
 
@@ -115,7 +115,7 @@ This workflow is used for validate binary compatibility the current version.
 | Parameter | Since | Required           | Default | Description                        | 
 |-----------|-------|--------------------|---------|------------------------------------|
 | ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
-| java      | 1.0.0 | :heavy_minus_sign: | 8       | _AdoptJDK_ version                 |
+| java      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                 |
 
 **How to use**:
 

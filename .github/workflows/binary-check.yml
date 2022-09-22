@@ -10,7 +10,7 @@ on:
       java:
         type: string
         required: false
-        default: 8
+        default: 11
 
 jobs:
   cmd:
