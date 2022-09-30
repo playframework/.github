@@ -21,6 +21,7 @@ This repository contains a few configurations of GitHub features. For example a 
 * [Publishing to Sonatype](#publishing-to-sonatype)
 * [Validate Binary Compatibility](#validate-binary-compatibility)
 * [Mark Pull Request as Ready To Merge](#mark-pull-request-as-ready-to-merge)
+* [Generate documentation with Antora](#generate-documentation-with-antora)
 
 ### Universal CMD task
 
@@ -144,6 +145,33 @@ needs: # Should be latest
   - "..."
   - "tests"
 uses: playframework/.github/.github/workflows/rtm.yml@v2
+```
+
+### Generate documentation with Antora
+
+This workflow is used for generate and optionally publish documentation with [Antora](http://antora.org).
+
+**Path**: [`.github/workflows/antora.yml`](.github/workflows/antora.yml)
+
+**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+
+**Uses actions**:
+* [Setup Node](https://github.com/actions/setup-node)
+* [Cache](https://github.com/actions/cache)
+* [GitHub Pages](https://github.com/peaceiris/actions-gh-pages)
+
+**Parameters**:
+
+| Parameter | Since | Required           | Default                     | Description         | 
+|-----------|-------|--------------------|-----------------------------|---------------------|
+| path      | 3.1.0 | :heavy_minus_sign: | `./`                        | Path with docs      |
+| playbook  | 3.1.0 | :heavy_minus_sign: | `local-antora-playbook.yml` | Playbook file name  |
+| publish   | 3.1.0 | :heavy_minus_sign: | false                       | Publish to GH Pages |
+
+**How to use**:
+
+```yaml
+uses: playframework/.github/.github/workflows/antora.yml@v3
 ```
 
 ## GitHub Actions Starter workflows
