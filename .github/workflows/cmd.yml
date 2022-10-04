@@ -42,10 +42,18 @@ on:
         type: string
         required: false
         default: ""
+      run-scheduled-in-forks:
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   prepare-matrix:
     name: Prepare Matrix
+    if: >-
+      github.event.repository.fork == false || 
+      github.event_name != 'schedule' || 
+      (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true)
     runs-on: ubuntu-20.04
     outputs:
       matrix: ${{ steps.prepare-matrix.outputs.matrix }}
@@ -67,6 +75,7 @@ jobs:
         echo ::set-output name=matrix::$(echo $matrix)
   cmd:
     name: ${{ toJSON(matrix) }}
+    if: ${{ github.event.repository.fork == false || github.event_name != 'schedule' || (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true) }}
     needs: prepare-matrix
     runs-on: ubuntu-20.04
     strategy:
