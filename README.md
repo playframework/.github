@@ -40,18 +40,19 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 
 **Parameters**:
 
-| Parameter         | Since | Required           | Default | Description                                       | 
-|-------------------|-------|--------------------|---------|---------------------------------------------------|
-| ref               | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                   |
-| cmd               | 2.0.0 | :exclamation:      | -       | Running command                                   |
-| java              | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list)   |
-| scala             | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)      |
-| add-dimensions    | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)             |
-| include           | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)              |
-| exclude           | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)              |
-| cache-key         | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                               |
-| cache-path        | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                              |
-| env               | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                   |
+| Parameter              | Since | Required           | Default | Description                                     | 
+|------------------------|-------|--------------------|---------|-------------------------------------------------|
+| ref                    | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                 |
+| cmd                    | 2.0.0 | :exclamation:      | -       | Running command                                 |
+| java                   | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list) |
+| scala                  | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)    |
+| add-dimensions         | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
+| include                | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)            |
+| exclude                | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)            |
+| cache-key              | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
+| cache-path             | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
+| env                    | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
+| run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                         |
 
 
 **How to use**:
@@ -113,10 +114,11 @@ This workflow is used for validate binary compatibility the current version.
 
 **Parameters**:
 
-| Parameter | Since | Required           | Default | Description                        | 
-|-----------|-------|--------------------|---------|------------------------------------|
-| ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
-| java      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                 |
+| Parameter              | Since | Required           | Default | Description                     | 
+|------------------------|-------|--------------------|---------|---------------------------------|
+| ref                    | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout |
+| java                   | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version              |
+| run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork         |
 
 **How to use**:
 
@@ -162,11 +164,12 @@ This workflow is used for generate and optionally publish documentation with [An
 
 **Parameters**:
 
-| Parameter | Since | Required           | Default                     | Description         | 
-|-----------|-------|--------------------|-----------------------------|---------------------|
-| path      | 3.1.0 | :heavy_minus_sign: | `./`                        | Path with docs      |
-| playbook  | 3.1.0 | :heavy_minus_sign: | `local-antora-playbook.yml` | Playbook file name  |
-| publish   | 3.1.0 | :heavy_minus_sign: | false                       | Publish to GH Pages |
+| Parameter              | Since | Required           | Default                     | Description             | 
+|------------------------|-------|--------------------|-----------------------------|-------------------------|
+| path                   | 3.1.0 | :heavy_minus_sign: | `./`                        | Path with docs          |
+| playbook               | 3.1.0 | :heavy_minus_sign: | `local-antora-playbook.yml` | Playbook file name      |
+| publish                | 3.1.0 | :heavy_minus_sign: | false                       | Publish to GH Pages     |
+| run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false                       | Run by schedule in fork |
 
 **How to use**:
 
