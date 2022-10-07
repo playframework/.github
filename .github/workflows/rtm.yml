@@ -6,6 +6,7 @@ on:
 jobs:
   cmd:
     name: Ready To Merge
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-20.04
     steps:
       - name: Ready To Merge
