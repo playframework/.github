@@ -32,7 +32,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 
 **Path**: [`.github/workflows/cmd.yml`](.github/workflows/cmd.yml)
 
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
 
 **Uses actions**:
 * [Coursier/Setup Action](https://github.com/coursier/setup-action)
@@ -58,7 +58,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/cmd.yml@v2
+uses: playframework/.github/.github/workflows/cmd.yml@v3
 with:
   java: 17, 11
   scala: 2.12.17, 2.13.9, 3.2.0
@@ -79,7 +79,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 
 **Path**: [`.github/workflows/publish.yml`](.github/workflows/publish.yml)
 
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
 
 **Uses actions**:
 * [Coursier/Setup Action](https://github.com/coursier/setup-action)
@@ -95,7 +95,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/publish.yml@v2
+uses: playframework/.github/.github/workflows/publish.yml@v3
 ```
 
 ### Validate Binary Compatibility
@@ -106,7 +106,7 @@ This workflow is used for validate binary compatibility the current version.
 
 **Path**: [`.github/workflows/binary-check.yml`](.github/workflows/binary-check.yml)
 
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
 
 **Uses actions**:
 * [Coursier/Setup Action](https://github.com/coursier/setup-action)
@@ -123,7 +123,7 @@ This workflow is used for validate binary compatibility the current version.
 **How to use**:
 
 ```yaml
-uses: playframework/.github/.github/workflows/binary-check.yml@v2
+uses: playframework/.github/.github/workflows/binary-check.yml@v3
 ```
 
 ### Mark Pull Request as Ready To Merge
@@ -134,7 +134,7 @@ This workflow is used for mark pull request as ready to merge and **should be la
 
 **Path**: [`.github/workflows/rtm.yml`](.github/workflows/rtm.yml)
 
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
 
 
 **No Parameters**
@@ -146,7 +146,7 @@ needs: # Should be latest
   - "check-code-style"
   - "..."
   - "tests"
-uses: playframework/.github/.github/workflows/rtm.yml@v2
+uses: playframework/.github/.github/workflows/rtm.yml@v3
 ```
 
 ### Generate documentation with Antora
@@ -155,7 +155,7 @@ This workflow is used for generate and optionally publish documentation with [An
 
 **Path**: [`.github/workflows/antora.yml`](.github/workflows/antora.yml)
 
-**Image**: [Ubuntu 20.04](https://hub.docker.com/layers/ubuntu/library/ubuntu/20.04/images/sha256-57df66b9fc9ce2947e434b4aa02dbe16f6685e20db0c170917d4a1962a5fe6a9?context=explore)
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
 
 **Uses actions**:
 * [Setup Node](https://github.com/actions/setup-node)
