@@ -61,7 +61,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 uses: playframework/.github/.github/workflows/cmd.yml@v3
 with:
   java: 17, 11
-  scala: 2.12.17, 2.13.9, 3.2.0
+  scala: 2.12.17, 2.13.10, 3.2.0
   add-dimensions: >-
     {
       "color": [ "red", "green"]
