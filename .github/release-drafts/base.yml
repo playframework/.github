@@ -2,6 +2,9 @@ name-template: 'Version $RESOLVED_VERSION'
 tag-template: '$RESOLVED_VERSION'
 filter-by-commitish: true
 change-template: '- #$NUMBER $TITLE by @$AUTHOR'
+replacers:
+  - search: ' by @mergify'
+    replace: ''
 template: |
   ## Changes
 
