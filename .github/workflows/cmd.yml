@@ -72,7 +72,7 @@ jobs:
         matrix+="\"exclude\":$(echo -n '${{ inputs.exclude }}')"
         matrix+="}"
         echo $matrix
-        echo ::set-output name=matrix::$(echo $matrix)
+        echo "matrix=$matrix" >> $GITHUB_OUTPUT
   cmd:
     name: ${{ toJSON(matrix) }}
     if: ${{ github.event.repository.fork == false || github.event_name != 'schedule' || (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true) }}
