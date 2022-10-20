@@ -71,6 +71,8 @@ jobs:
         matrix+="\"include\":$(echo -n '${{ inputs.include }}'),"
         matrix+="\"exclude\":$(echo -n '${{ inputs.exclude }}')"
         matrix+="}"
+        # Cleanup JSON (no unnecessary whitespaces, etc.)
+        matrix=$(jq -n -c "$matrix")
         echo $matrix
         echo "matrix=$matrix" >> $GITHUB_OUTPUT
   cmd:
