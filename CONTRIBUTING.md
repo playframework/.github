@@ -53,7 +53,7 @@ Before making a contribution, it is important to make sure that the change you w
           ````
           followed by an empty line.
         * Not use `@author` tags since it does not encourage [Collective Code Ownership](https://www.extremeprogramming.org/rules/collective.html).
-        * Run `sbt validateCode` to ensure all files are formatted and have the copyright header. If you changed docs please run that command inside the documentation folder as well.
+        * Usually a repository provides the sbt commands `validateCode` and `formatCode`. Run `sbt validateCode` to ensure all files are formatted and have the copyright header. If you changed docs, please run that command inside the `documentation` folder as well. If validation fails, you can run the `sbt formatCode` command to run all of the various formatters. If the commands are not available you are welcome to open a pull request to add them.
 1. Ensure that your commits are squashed.  See [working with git](https://playframework.com/documentation/latest/WorkingWithGit) for more information.
 1. Submit a pull request.
 
