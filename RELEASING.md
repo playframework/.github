@@ -138,7 +138,7 @@ When ready:
   - Make sure you are using **JDK8** to build and release.
   - Ccheckout the branch you want to release and check that the commit you want to release has a green build in CI
   - Tag the commit, eg: (`git tag -s x.y.z`). The projects are using sbt-dynver, so tagging first is important in order to get the right version number. Play is NOT using tag prefixes (eg: v1.0.2), it uses 1.0.2 instead and dynver is configured as such.
-  - Run `sbt release`
+  - Run `sbt -J-XX:ReservedCodeCacheSize=512m release`
   - At the end of the release, you must push the tag.
  - Check the corresponding release page in GitHub, adapt the release notes as needed and published it.
 
