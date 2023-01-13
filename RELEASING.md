@@ -321,6 +321,7 @@ ssh -i PlayProd2015.pem ubuntu@ec2-100-25-201-80.compute-1.amazonaws.com
 1. Publish the release on <https://github.com/playframework/playframework/releases>. There should be a release draft already.
    - Make sure to check `[x] Create a discussion for this release` before publishing the release!
 1. Tweet about the new release.
+1. Post in the LinkedIn group: https://www.linkedin.com/groups/3818467/
 
 **Tip**:
 This shouldn't be necessary anymore because release drafter already adds all the author itself to the release notes, which will the display nicely at the bottom of a release. In case you want to list all the authors that contributed to a release you can use:
