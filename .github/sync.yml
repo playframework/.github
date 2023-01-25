@@ -1,34 +1,70 @@
 # More details in https://github.com/marketplace/actions/repo-file-sync-action
-group:
-  # Mergify settings
-  - files:
-      - .mergify.yml
-    repos: |
-      playframework/cachecontrol
-      playframework/interplay
-      playframework/omnidoc
-      playframework/play-doc
-      playframework/play-ebean
-      playframework/play-file-watch
-      playframework/play-grpc
-      playframework/play-java-seed.g8
-      playframework/play-json
-      playframework/play-mailer
-      playframework/play-samples
-      playframework/play-scala-seed.g8
-      playframework/play-slick
-      playframework/play-soap
-      playframework/play-socket.io
-      playframework/play-webgoat
-      playframework/play-ws
-      playframework/playframework
-      playframework/playframework.com
-      playframework/scalatestplus-play
-      playframework/twirl
-#      playframework/anorm
-#      playframework/netty-reactive-streams
-#      playframework/play-java-react-seed
-#      playframework/play-scala-react-seed
-#      playframework/play-java-angular-seed
-#      playframework/play-scala-angular-seed
+
+playframework/cachecontrol:
+  - source: sbt/common.sbt
+    dest: common.sbt
+
+#playframework/interplay:
+
+#playframework/omnidoc:
+
+#playframework/play-doc:
+
+#playframework/play-ebean:
+
+#playframework/play-file-watch:
+
+#playframework/play-grpc:
+
+#playframework/play-java-seed.g8:
+
+#playframework/play-json:
+
+#playframework/play-mailer:
+
+#playframework/play-samples:
+
+#playframework/play-scala-seed.g8:
+
+#playframework/play-slick:
+
+playframework/play-soap:
+  - source: sbt/common.sbt
+    dest: common.sbt
+
+#playframework/play-socket.io:
+
+#playframework/play-webgoat:
+
+#playframework/play-ws:
+
+playframework/playframework:
+  - source: sbt/common.sbt
+    dest: common.sbt
+  - source: sbt/common.sbt
+    dest: documentation/common.sbt
+
+playframework/playframework@2.8.x:
+  - source: sbt/common.sbt
+    dest: common.sbt
+  - source: sbt/common.sbt
+    dest: documentation/common.sbt
+
+#playframework/playframework.com:
+
+#playframework/scalatestplus-play:
+
+#playframework/twirl:
+
+#playframework/anorm:
+
+#playframework/netty-reactive-streams:
+
+#playframework/play-java-react-seed:
+
+#playframework/play-scala-react-seed:
+
+#playframework/play-java-angular-seed:
+
+#playframework/play-scala-angular-seed:
 
