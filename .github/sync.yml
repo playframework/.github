@@ -10,7 +10,11 @@ playframework/cachecontrol:
 
 #playframework/play-doc:
 
-#playframework/play-ebean:
+playframework/play-ebean:
+  - source: sbt/common.sbt
+    dest: common.sbt
+  - source: sbt/common.sbt
+    dest: docs/common.sbt
 
 #playframework/play-file-watch:
 
