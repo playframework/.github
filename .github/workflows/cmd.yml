@@ -46,6 +46,10 @@ on:
         type: boolean
         required: false
         default: false
+      gradle-build-root:
+        type: string
+        required: false
+        default: ""
 
 jobs:
   prepare-matrix:
@@ -98,6 +102,15 @@ jobs:
       - name: Coursier Cache
         id: coursier-cache
         uses: coursier/cache-action@v6
+
+      - name: Gradle Cache
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          build-root-directory: ${{ inputs.gradle-build-root }}
+          # Disable caching of ~/.gradle/caches/build-cache-*
+          save-local-build-cache: false
+          # Disable caching of ~/.m2/repository/
+          save-maven-dependencies-cache: false
 
       - name: Custom Cache
         uses: actions/cache@v3
