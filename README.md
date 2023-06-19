@@ -20,6 +20,7 @@ This repository contains a few configurations of GitHub features. For example a 
 * [Universal CMD task](#universal-cmd-task)
 * [Publishing to Sonatype](#publishing-to-sonatype)
 * [Validate Binary Compatibility](#validate-binary-compatibility)
+* [Validate Gradle Wrapper](#validate-gradle-wrapper)
 * [Mark Pull Request as Ready To Merge](#mark-pull-request-as-ready-to-merge)
 * [Generate documentation with Antora](#generate-documentation-with-antora)
 
@@ -53,6 +54,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 | cache-path             | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
 | env                    | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
 | run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                         |
+| gradle-build-root      | 3.3.0 | :heavy_minus_sign: | ''      | Directory for Gradle builds                     |
 
 
 **How to use**:
@@ -73,7 +75,7 @@ with:
 
 ### Publishing to Sonatype
 
-This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/play/) repository or release artifacts to [Maven Central](https://repo1.maven.org/maven2/com/typesafe/play/). 
+This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/typesafe/play/) repository or release artifacts to [Maven Central](https://repo1.maven.org/maven2/com/typesafe/play/).
 
 :warning: For using this workflow project must uses the [CI Release](https://github.com/sbt/sbt-ci-release) plugin.
 
@@ -87,10 +89,12 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 
 **Parameters**:
 
-| Parameter | Since | Required           | Default | Description                        |
-|-----------|-------|--------------------|---------|------------------------------------|
-| ref       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout    |
-| java      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                 |
+| Parameter         | Since | Required           | Default        | Description                     |
+|-------------------|-------|--------------------|----------------|---------------------------------|
+| ref               | 2.0.0 | :heavy_minus_sign: | ''             | Branch, tag or SHA for checkout |
+| java              | 1.0.0 | :heavy_minus_sign: | 11             | _AdoptJDK_ version              |
+| cmd               | 3.3.0 | :heavy_minus_sign: | sbt ci-release | Running command                 |
+| gradle-build-root | 3.3.0 | :heavy_minus_sign: | ''             | Directory for Gradle builds     |
 
 **How to use**:
 
@@ -124,6 +128,29 @@ This workflow is used for validate binary compatibility the current version.
 
 ```yaml
 uses: playframework/.github/.github/workflows/binary-check.yml@v3
+```
+
+### Validate Gradle Wrapper
+
+This workflow is used to validate the checksums of [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) JAR files present in the source tree and fails if unknown Gradle Wrapper JAR files are found.
+
+**Path**: [`.github/workflows/gradle-wrapper-validation.yml`](.github/workflows/gradle-wrapper-validation.yml)
+
+**Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
+
+**Uses actions**:
+* [Gradle/Wrapper Validation Action](https://github.com/gradle/wrapper-validation-action)
+
+**Parameters**:
+
+| Parameter              | Since | Required           | Default | Description                     | 
+|------------------------|-------|--------------------|---------|---------------------------------|
+| ref                    | 3.3.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout |
+
+**How to use**:
+
+```yaml
+uses: playframework/.github/.github/workflows/gradle-wrapper-validation.yml@v3
 ```
 
 ### Mark Pull Request as Ready To Merge
