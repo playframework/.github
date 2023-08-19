@@ -11,6 +11,10 @@ on:
         type: string
         required: false
         default: 11
+      java-index:
+        type: string
+        required: false
+        default: ''
       cmd:
         type: string
         required: false
@@ -50,6 +54,7 @@ jobs:
         uses: coursier/setup-action@v1
         with:
           jvm: adoptium:${{ inputs.java }}
+          jvm-index: ${{ inputs.java-index }}
 
       - name: Publish artifacts
         run: ${{ inputs.cmd }}

@@ -11,6 +11,10 @@ on:
         type: string
         required: false
         default: "11"
+      java-index:
+        type: string
+        required: false
+        default: ''
       scala:
         type: string
         required: false
@@ -123,6 +127,7 @@ jobs:
         uses: coursier/setup-action@v1
         with:
           jvm: adoptium:${{ matrix.java }}
+          jvm-index: ${{ inputs.java-index }}
 
       - name: Print helpful configs and files and show environment
         run: |
