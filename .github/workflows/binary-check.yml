@@ -11,6 +11,10 @@ on:
         type: string
         required: false
         default: 11
+      java-index:
+        type: string
+        required: false
+        default: ''
       run-scheduled-in-forks:
         type: boolean
         required: false
@@ -40,6 +44,7 @@ jobs:
         uses: coursier/setup-action@v1
         with:
           jvm: adoptium:${{ inputs.java }}
+          jvm-index: ${{ inputs.java-index }}
 
       - name: Binary Compatibility
         run: sbt +mimaReportBinaryIssues
