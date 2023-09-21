@@ -12,7 +12,7 @@
     - [Step 0 - Release projects that Play depend on (play-json, play-ws, twirl)](#step-0---release-projects-that-play-depends-on-play-json-play-ws-twirl)
     - [Step 1 - Release Play itself](#step-1---release-play-itself)
     - [Step 2 - Release external modules](#step-2---release-external-modules)
-    - [Step 3 - Release omnidoc](#step-3---release-omnidoc)
+    - [Step 3 - Release omnidoc](#step-3---omnidoc)
     - [Step 4 - Update `play-samples`](#step-4---update-play-samples)
     - [Step 5 - Update playframework.com](#step-5---update-playframeworkcom)
       - [Update `.version` in `play-generated-docs`](#update-version-in-play-generated-docs)
@@ -191,7 +191,7 @@ You can check that the artifacts are available at Maven Central under `<library>
 **Verification**:
 when you run sbt new playframework/play-{scala,java}-seed.g8 it should pick up the new version on Maven. Try the templates out. You may need to update them if they don't work with the new version of Play.
 
-### Step 3 - Release omnidoc
+### Step 3 - omnidoc
 
 **Warning**:
 This is a compulsory step and the version X.Y.Z of omnidoc released here must match the version X.Y.Z of Play released in step 1 above.
@@ -214,19 +214,21 @@ diff --git a/project/OmnidocBuild.scala b/project/OmnidocBuild.scala
 
 Push this changes directly to GitHub (no need for a pull request).
 
-To release omnidoc:
+To tag omnidoc:
 
-- For Play 2.9 and newer we [set up `sbt-ci-release`](https://github.com/playframework/omnidoc/pull/207):
-  - Create a tag for the release either by using `git tag -s` or the GitHub UI. Make sure you are on the correct branch (where you just set the correct versions described above)
-  - After the tag was pushed, the GitHub actions ci workflow will do the rest.
-- For Play 2.8.x you still have to release by hand:
+- For Play 2.9 we do not need to publish artifacts anymore:
+  - Just create a tag by using `git tag -s` or the GitHub UI. Make sure you are on the correct branch (where you just set the correct versions described above)
+  - After the tag was pushed, there will be NO GitHub actions ci workflow run anymore because we do not need to publish artifacts.
+  - Now locally: Make sure you checked out the tag you just created, make sure the working directoy is clean, so `sbt version` display the version nice (without `-SNAPSHOT` etc.)
+  - Run `sbt +publishLocal`
+  - Continue with the play generated docs step below.
+- For Play 2.8.x you still have to release by hand and actually publish artifacts:
   - make sure you are using **JDK8** to build and release
   - checkout the branch you want to release and check that the commit you want to release has a green build in CI
   - DO NOT create a tag. Omnidoc does not have a `version.sbt` file and also does not use sbt-dynver. It gets its version from Play.
   - run `sbt release`
   - at the end of the release, the commit will be tagged and you must push the tag.
-
-**Verification**: check that the artifacts are available at Maven Central under `play-omnidoc_<scalaversion>`. It may take a few minutes. <https://repo1.maven.org/maven2/com/typesafe/play/>
+  - **Verification**: check that the artifacts are available at Maven Central under `play-omnidoc_<scalaversion>`. It may take a few minutes. <https://repo1.maven.org/maven2/com/typesafe/play/>
 
 Once that is done, you can update the docs on playframework.com, by running:
 
@@ -320,8 +322,11 @@ ssh -i PlayProd2015.pem ubuntu@ec2-100-25-201-80.compute-1.amazonaws.com
 1. If the release contains security fixes post an update on <https://groups.google.com/g/play-framework-security>
 1. Publish the release on <https://github.com/playframework/playframework/releases>. There should be a release draft already.
    - Make sure to check `[x] Create a discussion for this release` before publishing the release!
-1. Tweet about the new release.
+1. Tweet about the new release: https://twitter.com/playframework/
 1. Post in the LinkedIn group: https://www.linkedin.com/groups/3818467/
+1. Post an (email) update on the Play Open Collective page: https://opencollective.com/playframework#category-CONNECT
+1. Post an (email) update in the GitHub Sponsors Dashboard https://github.com/sponsors/playframework/dashboard/updates (private link)
+1. Post on Scala Reddit https://www.reddit.com/r/scala/
 
 **Tip**:
 This shouldn't be necessary anymore because release drafter already adds all the author itself to the release notes, which will the display nicely at the bottom of a release. In case you want to list all the authors that contributed to a release you can use:
