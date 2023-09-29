@@ -41,21 +41,24 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 
 **Parameters**:
 
-| Parameter              | Since | Required           | Default | Description                                     | 
-|------------------------|-------|--------------------|---------|-------------------------------------------------|
-| ref                    | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                 |
-| cmd                    | 2.0.0 | :exclamation:      | -       | Running command                                 |
-| java                   | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list) |
-| java-index             | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file                    |
-| scala                  | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)    |
-| add-dimensions         | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
-| include                | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)            |
-| exclude                | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)            |
-| cache-key              | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
-| cache-path             | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
-| env                    | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
-| run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                         |
-| gradle-build-root      | 3.3.0 | :heavy_minus_sign: | ''      | Directory for Gradle builds                     |
+| Parameter                    | Since | Required           | Default | Description                                     | 
+|------------------------------|-------|--------------------|---------|-------------------------------------------------|
+| ref                          | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                 |
+| cmd                          | 2.0.0 | :exclamation:      | -       | Running command                                 |
+| java                         | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list) |
+| java-index                   | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file                    |
+| scala                        | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)    |
+| add-dimensions               | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
+| include                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)            |
+| exclude                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)            |
+| cache-key                    | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
+| cache-path                   | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
+| env                          | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
+| run-scheduled-in-forks       | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                         |
+| gradle-build-root            | 3.3.0 | :heavy_minus_sign: | ''      | Directory for Gradle builds                     |
+| ignore-job-coursier-cache    | 3.4.0 | :heavy_minus_sign: | true    | `ignoreJob` parameter for Coursier Cache        |
+| ignore-matrix-coursier-cache | 3.4.0 | :heavy_minus_sign: | true    | `ignoreMatrix` parameter for Coursier Cache     |
+| extra-coursier-cache-key     | 3.4.0 | :heavy_minus_sign: | ''      | `extraKey` parameter for Coursier Cache         |
 
 
 **How to use**:
@@ -91,13 +94,15 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 
 **Parameters**:
 
-| Parameter         | Since | Required           | Default        | Description                     |
-|-------------------|-------|--------------------|----------------|---------------------------------|
-| ref               | 2.0.0 | :heavy_minus_sign: | ''             | Branch, tag or SHA for checkout |
-| java              | 1.0.0 | :heavy_minus_sign: | 11             | _AdoptJDK_ version              |
-| java-index        | 3.3.1 | :heavy_minus_sign: | ''             | URL to JVM index source file    |
-| cmd               | 3.3.0 | :heavy_minus_sign: | sbt ci-release | Running command                 |
-| gradle-build-root | 3.3.0 | :heavy_minus_sign: | ''             | Directory for Gradle builds     |
+| Parameter                 | Since | Required           | Default        | Description                              |
+|---------------------------|-------|--------------------|----------------|------------------------------------------|
+| ref                       | 2.0.0 | :heavy_minus_sign: | ''             | Branch, tag or SHA for checkout          |
+| java                      | 1.0.0 | :heavy_minus_sign: | 11             | _AdoptJDK_ version                       |
+| java-index                | 3.3.1 | :heavy_minus_sign: | ''             | URL to JVM index source file             |
+| cmd                       | 3.3.0 | :heavy_minus_sign: | sbt ci-release | Running command                          |
+| gradle-build-root         | 3.3.0 | :heavy_minus_sign: | ''             | Directory for Gradle builds              |
+| ignore-job-coursier-cache | 3.4.0 | :heavy_minus_sign: | true           | `ignoreJob` parameter for Coursier Cache |
+| extra-coursier-cache-key  | 3.4.0 | :heavy_minus_sign: | ''             | `extraKey` parameter for Coursier Cache  |
 
 **How to use**:
 
@@ -121,12 +126,14 @@ This workflow is used for validate binary compatibility the current version.
 
 **Parameters**:
 
-| Parameter              | Since | Required           | Default | Description                     | 
-|------------------------|-------|--------------------|---------|---------------------------------|
-| ref                    | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout |
-| java                   | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version              |
-| java-index             | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file    |
-| run-scheduled-in-forks | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork         |
+| Parameter                 | Since | Required           | Default | Description                              | 
+|---------------------------|-------|--------------------|---------|------------------------------------------|
+| ref                       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout          |
+| java                      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                       |
+| java-index                | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file             |
+| run-scheduled-in-forks    | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                  |
+| ignore-job-coursier-cache | 3.4.0 | :heavy_minus_sign: | true    | `ignoreJob` parameter for Coursier Cache |
+| extra-coursier-cache-key  | 3.4.0 | :heavy_minus_sign: | ''      | `extraKey` parameter for Coursier Cache  |
 
 **How to use**:
 
