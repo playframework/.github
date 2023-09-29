@@ -15,6 +15,14 @@ on:
         type: string
         required: false
         default: ''
+      ignore-job-coursier-cache:
+        type: boolean
+        required: false
+        default: true
+      extra-coursier-cache-key:
+        type: string
+        required: false
+        default: ''
       cmd:
         type: string
         required: false
@@ -40,6 +48,10 @@ jobs:
       - name: Coursier Cache
         id: coursier-cache
         uses: coursier/cache-action@v6
+        with:
+          ignoreJob: ${{ inputs.ignore-job-coursier-cache }}
+          ignoreMatrix: true
+          extraKey: ${{ inputs.extra-coursier-cache-key }}
 
       - name: Gradle Cache
         uses: burrunan/gradle-cache-action@v1
