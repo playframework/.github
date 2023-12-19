@@ -36,9 +36,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Get npm cache directory
         id: npm-cache-dir
@@ -48,12 +48,17 @@ jobs:
         id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.npm-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-node-antora@3.1.1-lunr-extension@1.0.0-alpha.8
+          key: ${{ runner.os }}-node-antora@3.1.5-lunr-extension@1.0.0-alpha.8-tabs@1.0.0-beta.6
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install Antora and extensions
-        run: npm i -D -E --quiet --no-progress @antora/cli@3.1.1 @antora/site-generator@3.1.1 @antora/lunr-extension@1.0.0-alpha.8
+        run: >-
+          npm i -D -E --quiet --no-progress 
+          @antora/cli@3.1.5 
+          @antora/site-generator@3.1.5 
+          @antora/lunr-extension@1.0.0-alpha.8 
+          @asciidoctor/tabs@1.0.0-beta.6
         working-directory: ${{ inputs.path }}
 
       - name: Build documentation
