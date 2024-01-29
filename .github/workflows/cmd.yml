@@ -104,6 +104,10 @@ jobs:
       # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
       matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:
+      - name: Block deprecated repos in /etc/hosts
+        run: |
+          sudo echo "127.0.0.1 repo.scala-sbt.org" | sudo tee -a /etc/hosts
+          sudo echo "127.0.0.1 repo.typesafe.com" | sudo tee -a /etc/hosts
       - name: Checkout
         uses: actions/checkout@v4
         with:
