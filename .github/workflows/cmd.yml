@@ -10,7 +10,7 @@ on:
       java:
         type: string
         required: false
-        default: "11"
+        default: "17"
       java-index:
         type: string
         required: false

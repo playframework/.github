@@ -45,7 +45,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 |------------------------------|-------|--------------------|---------|-------------------------------------------------|
 | ref                          | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout                 |
 | cmd                          | 2.0.0 | :exclamation:      | -       | Running command                                 |
-| java                         | 2.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version (space/comma delimited list) |
+| java                         | 2.0.0 | :heavy_minus_sign: | 17      | _AdoptJDK_ version (space/comma delimited list) |
 | java-index                   | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file                    |
 | scala                        | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)    |
 | add-dimensions               | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
@@ -66,9 +66,9 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 ```yaml
 uses: playframework/.github/.github/workflows/cmd.yml@v3
 with:
-  java: 17, 11
+  java: 17, 21
   java-index: https://url/of/your/index.json
-  scala: 2.12.18, 2.13.12, 3.3.1
+  scala: 2.12.19, 2.13.13, 3.3.1
   add-dimensions: >-
     {
       "color": [ "red", "green"]
@@ -97,7 +97,7 @@ This workflow is used for publishing snapshots artifacts to [Sonatype Snapshots]
 | Parameter                 | Since | Required           | Default        | Description                              |
 |---------------------------|-------|--------------------|----------------|------------------------------------------|
 | ref                       | 2.0.0 | :heavy_minus_sign: | ''             | Branch, tag or SHA for checkout          |
-| java                      | 1.0.0 | :heavy_minus_sign: | 11             | _AdoptJDK_ version                       |
+| java                      | 1.0.0 | :heavy_minus_sign: | 17             | _AdoptJDK_ version                       |
 | java-index                | 3.3.1 | :heavy_minus_sign: | ''             | URL to JVM index source file             |
 | cmd                       | 3.3.0 | :heavy_minus_sign: | sbt ci-release | Running command                          |
 | gradle-build-root         | 3.3.0 | :heavy_minus_sign: | ''             | Directory for Gradle builds              |
@@ -129,7 +129,7 @@ This workflow is used for validate binary compatibility the current version.
 | Parameter                 | Since | Required           | Default | Description                              | 
 |---------------------------|-------|--------------------|---------|------------------------------------------|
 | ref                       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout          |
-| java                      | 1.0.0 | :heavy_minus_sign: | 11      | _AdoptJDK_ version                       |
+| java                      | 1.0.0 | :heavy_minus_sign: | 17      | _AdoptJDK_ version                       |
 | java-index                | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file             |
 | run-scheduled-in-forks    | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                  |
 | ignore-job-coursier-cache | 3.4.0 | :heavy_minus_sign: | true    | `ignoreJob` parameter for Coursier Cache |
