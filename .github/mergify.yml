@@ -60,7 +60,10 @@ pull_request_rules:
     actions:
       delete_head_branch: {}
       label:
-        remove: [ "status:merge-when-green" ]
+        remove:
+          - "status:merge-when-green"
+          - "status:merge-rebase-when-green"
+          - "status:merge-squash-when-green"
 
   - name: Labeling for Scala Steward PR's
     conditions:
