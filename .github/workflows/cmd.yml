@@ -137,7 +137,7 @@ jobs:
           save-maven-dependencies-cache: false
 
       - name: Custom Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
           key: ${{ format(inputs.cache-key, matrix.java) }}
