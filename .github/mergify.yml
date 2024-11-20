@@ -1,62 +1,64 @@
 defaults:
   actions:
     backport:
-      title: "[{{ destination_branch }}] {{ title }} (backport #{{ number }}) by @{{ author }}"
+      title: "[{{ destination_branch }}] {{ title }} (backport #{{ number }}) by @{{
+        author }}"
 
 queue_rules:
-  - name: default
-    conditions:
-      # Conditions to get out of the queue (= merged)
-      - check-success~=/ Ready To Merge$
-
-pull_request_rules:
-  - name: Merge PRs that are ready
-    conditions:
+  - name: duplicated default from Merge (Rebase) PRs that are ready
+    queue_conditions:
       - check-success~=/ Ready To Merge$
       - "#approved-reviews-by>=1"
       - "#review-requested=0"
       - "#changes-requested-reviews-by=0"
       - label!=status:block-merge
       - label=status:merge-when-green
-    actions:
-      queue:
-        merge_method: merge
-        update_method: rebase
-        name: default
-
-  - name: Merge (Rebase) PRs that are ready
-    conditions:
       - check-success~=/ Ready To Merge$
       - "#approved-reviews-by>=1"
       - "#review-requested=0"
       - "#changes-requested-reviews-by=0"
       - label!=status:block-merge
       - label=status:merge-rebase-when-green
-    actions:
-      queue:
-        merge_method: rebase
-        update_method: rebase
-        name: default
-
-  - name: Merge (Squash) PRs that are ready
-    conditions:
+    merge_conditions: []
+    merge_method: rebase
+    update_method: rebase
+  - name: duplicated default from Merge (Squash) PRs that are ready
+    queue_conditions:
+      - check-success~=/ Ready To Merge$
+      - "#approved-reviews-by>=1"
+      - "#review-requested=0"
+      - "#changes-requested-reviews-by=0"
+      - label!=status:block-merge
+      - label=status:merge-when-green
       - check-success~=/ Ready To Merge$
       - "#approved-reviews-by>=1"
       - "#review-requested=0"
       - "#changes-requested-reviews-by=0"
       - label!=status:block-merge
       - label=status:merge-squash-when-green
-    actions:
-      queue:
-        merge_method: squash
-        update_method: rebase
-        name: default
+    merge_conditions: []
+    merge_method: squash
+    update_method: rebase
+  - name: default
+    queue_conditions:
+      - check-success~=/ Ready To Merge$
+      - "#approved-reviews-by>=1"
+      - "#review-requested=0"
+      - "#changes-requested-reviews-by=0"
+      - label!=status:block-merge
+      - label=status:merge-when-green
+    merge_conditions:
+      # Conditions to get out of the queue (= merged)
+      - check-success~=/ Ready To Merge$
+    merge_method: merge
+    update_method: rebase
 
+pull_request_rules:
   - name: Delete the PR branch and remove label after merge/close
     conditions:
       - or:
-        - merged
-        - closed
+          - merged
+          - closed
     actions:
       delete_head_branch: {}
       label:
@@ -70,4 +72,8 @@ pull_request_rules:
       - author=scala-steward
     actions:
       label:
-        add: [ "type:updates" ]
+        add: ["type:updates"]
+  - name: refactored queue action rule
+    conditions: []
+    actions:
+      queue:
