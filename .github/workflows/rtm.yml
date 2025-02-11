@@ -7,7 +7,7 @@ jobs:
   cmd:
     name: Ready To Merge
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Ready To Merge
         run: echo 'Ready To Merge'
