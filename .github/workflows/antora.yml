@@ -27,7 +27,7 @@ jobs:
       github.event.repository.fork == false || 
       github.event_name != 'schedule' || 
       (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true)
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Block deprecated repos in /etc/hosts
         run: |
