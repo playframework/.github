@@ -5,6 +5,22 @@ defaults:
 
 queue_rules:
   - name: default
+    merge_method: merge
+    update_method: rebase
+    queue_conditions:
+      # Conditions to get out of the queue (= merged)
+      - check-success~=/ Ready To Merge$
+
+  - name: rebase
+    merge_method: rebase
+    update_method: rebase
+    queue_conditions:
+      # Conditions to get out of the queue (= merged)
+      - check-success~=/ Ready To Merge$
+
+  - name: squash
+    merge_method: squash
+    update_method: rebase
     queue_conditions:
       # Conditions to get out of the queue (= merged)
       - check-success~=/ Ready To Merge$
@@ -20,8 +36,6 @@ pull_request_rules:
       - label=status:merge-when-green
     actions:
       queue:
-        merge_method: merge
-        update_method: rebase
         name: default
 
   - name: Merge (Rebase) PRs that are ready
@@ -34,9 +48,7 @@ pull_request_rules:
       - label=status:merge-rebase-when-green
     actions:
       queue:
-        merge_method: rebase
-        update_method: rebase
-        name: default
+        name: rebase
 
   - name: Merge (Squash) PRs that are ready
     conditions:
@@ -48,9 +60,7 @@ pull_request_rules:
       - label=status:merge-squash-when-green
     actions:
       queue:
-        merge_method: squash
-        update_method: rebase
-        name: default
+        name: squash
 
   - name: Delete the PR branch and remove label after merge/close
     conditions:
