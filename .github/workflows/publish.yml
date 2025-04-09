@@ -35,7 +35,7 @@ on:
 jobs:
   cmd:
     name: JDK ${{ inputs.java }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     if: ${{ github.event.repository.fork == false }}
     steps:
       - name: Block deprecated repos in /etc/hosts
