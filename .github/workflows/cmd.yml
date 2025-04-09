@@ -149,6 +149,9 @@ jobs:
           jvm: adoptium:${{ matrix.java }}
           jvm-index: ${{ inputs.java-index }}
 
+      - name: Install sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Print helpful configs and files and show environment
         run: |
           echo "Matrix: ${{ toJSON(matrix) }}"

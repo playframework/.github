@@ -72,6 +72,9 @@ jobs:
           jvm: adoptium:${{ inputs.java }}
           jvm-index: ${{ inputs.java-index }}
 
+      - name: Install sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Publish artifacts
         run: ${{ inputs.cmd }}
         env:
