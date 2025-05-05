@@ -58,7 +58,7 @@ jobs:
           extraKey: ${{ inputs.extra-coursier-cache-key }}
 
       - name: Gradle Cache
-        uses: burrunan/gradle-cache-action@v2
+        uses: burrunan/gradle-cache-action@v3
         with:
           build-root-directory: ${{ inputs.gradle-build-root }}
           # Disable caching of ~/.gradle/caches/build-cache-*
