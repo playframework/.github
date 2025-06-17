@@ -28,9 +28,6 @@ This repository contains a few configurations of GitHub features. For example a 
 
 This workflow is used for running any CMD task on matrix of Java versions and other dimensions.
 
-Every matrix dimension will be access by environment variable like `MATRIX_$(uppercase(dimension_name))` (for example `MATRIX_JAVA`).
-
-
 **Path**: [`.github/workflows/cmd.yml`](.github/workflows/cmd.yml)
 
 **Image**: [Ubuntu 20.04](https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2004-Readme.md)
@@ -47,10 +44,6 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 | cmd                          | 2.0.0 | :exclamation:      | -       | Running command                                 |
 | java                         | 2.0.0 | :heavy_minus_sign: | 17      | _AdoptJDK_ version (space/comma delimited list) |
 | java-index                   | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file                    |
-| scala                        | 2.0.0 | :heavy_minus_sign: | ''      | _Scala_ version (space/comma delimited list)    |
-| add-dimensions               | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
-| include                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)            |
-| exclude                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)            |
 | cache-key                    | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
 | cache-path                   | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
 | env                          | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
@@ -64,16 +57,17 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 **How to use**:
 
 ```yaml
+strategy:
+  matrix:
+    java: [ 17, 21 ]
+    scala: [ 2.13.x, 3.x ]
+    color: [ "red", "green"]
 uses: playframework/.github/.github/workflows/cmd.yml@v3
 with:
-  java: 17, 21
+  java: ${{ matrix.java }}
+  scala: ${{ matrix.scala }}
   java-index: https://url/of/your/index.json
-  scala: 2.12.19, 2.13.13, 3.3.1
-  add-dimensions: >-
-    {
-      "color": [ "red", "green"]
-    }
-  cmd: sbt "-Dcustom_var=$CUSTOM_VAR" "-Dcolor=$MATRIX_COLOR" "-Djava=$MATRIX_JAVA" ++$MATRIX_SCALA test
+  cmd: sbt "-Dcustom_var=$CUSTOM_VAR" "-Dcolor=${{ matrix.color }}" "-Djava=${{ matrix.java }}" ++${{ matrix.scala }} test
   env: |
     CUSTOM_VAR=value
 ```
