@@ -34,7 +34,7 @@ jobs:
           sudo echo "127.0.0.1 repo.scala-sbt.org" | sudo tee -a /etc/hosts
           sudo echo "127.0.0.1 repo.typesafe.com" | sudo tee -a /etc/hosts
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
