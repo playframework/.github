@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - sync-scalafmt # TODO: remove before merge
 jobs:
   sync:
     runs-on: ubuntu-24.04
