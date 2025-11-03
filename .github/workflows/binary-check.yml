@@ -50,7 +50,7 @@ jobs:
 
       - name: Coursier Cache
         id: coursier-cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@v7
         with:
           ignoreJob: ${{ inputs.ignore-job-coursier-cache }}
           ignoreMatrix: true
