@@ -15,22 +15,6 @@ on:
         type: string
         required: false
         default: ''
-      scala:
-        type: string
-        required: false
-        default: ""
-      add-dimensions:
-        type: string
-        required: false
-        default: "{}"
-      include:
-        type: string
-        required: false
-        default: "[]"
-      exclude:
-        type: string
-        required: false
-        default: "[]"
       cmd:
         type: string
         required: true
@@ -66,43 +50,15 @@ on:
         type: string
         required: false
         default: ""
+      gradle-cache-read-only:
+        type: boolean
+        required: false
+        default: false
 
 jobs:
-  prepare-matrix:
-    name: Prepare Matrix
-    if: >-
-      github.event.repository.fork == false || 
-      github.event_name != 'schedule' || 
-      (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true)
-    runs-on: ubuntu-24.04
-    outputs:
-      matrix: ${{ steps.prepare-matrix.outputs.matrix }}
-    steps:
-    - id: prepare-matrix
-      run: |
-        add_dimensions=$(echo -n '${{ inputs.add-dimensions }}' | sed 's/^.*{//;s/}.*$//') # Remove leading { and trailing }
-        # input java/scala | replace whitespaces/commas/quotes by newline | drop empty | quotation | join by comma
-        java=$(echo -n '${{inputs.java}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
-        scala=$(echo -n '${{inputs.scala}}' | sed 's/[[:blank:],"]\+/\n/g' | awk NF | sed 's/^..*$/"&"/' | sed ':a; N; $!ba; s/\n/,/g')
-        matrix="{"
-        matrix+="\"java\": [$java],"
-        [[ ! -z "$scala" ]] && matrix+="\"scala\": [$scala],"
-        matrix+="$(echo ${add_dimensions:+$add_dimensions,})"
-        matrix+="\"include\":$(echo -n '${{ inputs.include }}'),"
-        matrix+="\"exclude\":$(echo -n '${{ inputs.exclude }}')"
-        matrix+="}"
-        # Cleanup JSON (no unnecessary whitespaces, etc.)
-        matrix=$(jq -n -c "$matrix")
-        echo $matrix
-        echo "matrix=$matrix" >> $GITHUB_OUTPUT
   cmd:
-    name: ${{ toJSON(matrix) }}
     if: ${{ github.event.repository.fork == false || github.event_name != 'schedule' || (github.event_name == 'schedule' && github.event.repository.fork == true && inputs.run-scheduled-in-forks == true) }}
-    needs: prepare-matrix
     runs-on: ubuntu-24.04
-    strategy:
-      # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
-      matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:
       - name: Block deprecated repos in /etc/hosts
         run: |
@@ -129,24 +85,26 @@ jobs:
 
       - name: Gradle Cache
         uses: burrunan/gradle-cache-action@v3
+        if: ${{ hashFiles(format('{0}{1}{2}', inputs.gradle-build-root, inputs.gradle-build-root && '/' || '', 'gradle/wrapper/gradle-wrapper.properties')) != '' }}
         with:
           build-root-directory: ${{ inputs.gradle-build-root }}
           # Disable caching of ~/.gradle/caches/build-cache-*
           save-local-build-cache: false
           # Disable caching of ~/.m2/repository/
           save-maven-dependencies-cache: false
+          read-only: ${{ inputs.gradle-cache-read-only }}
 
       - name: Custom Cache
         uses: actions/cache@v4
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
-          key: ${{ format(inputs.cache-key, matrix.java) }}
+          key: ${{ format(inputs.cache-key, inputs.java) }}
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
         uses: coursier/setup-action@v1
         with:
-          jvm: adoptium:${{ matrix.java }}
+          jvm: adoptium:${{ inputs.java }}
           jvm-index: ${{ inputs.java-index }}
 
       - name: Install sbt
@@ -154,7 +112,6 @@ jobs:
 
       - name: Print helpful configs and files and show environment
         run: |
-          echo "Matrix: ${{ toJSON(matrix) }}"
           echo "$ cat /etc/sbt/jvmopts"
           cat /etc/sbt/jvmopts || true
           echo ""
@@ -167,10 +124,6 @@ jobs:
           ls -alFhR ~/.ivy2 | grep play | grep jar || true
           echo "ls -alFhR ~/.cache/coursier | grep play | grep jar"
           ls -alFhR ~/.cache/coursier | grep play | grep jar || true
-
-      - name: Convert matrix elements to environment variables
-        run: |
-          jq -n -r '$in | to_entries|map("MATRIX_\(.key|ascii_upcase)=\(.value|tostring)")|.[]' --argjson in '${{ toJSON(matrix) }}' >> $GITHUB_ENV
 
       - name: Run command
         run: ${{ inputs.cmd }}
