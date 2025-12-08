@@ -144,7 +144,7 @@ jobs:
           path: ${{ inputs.cache-path }}
 
       - name: Install Adoptium Temurin OpenJDK
-        uses: coursier/setup-action@v1
+        uses: coursier/setup-action@v2
         with:
           jvm: adoptium:${{ matrix.java }}
           jvm-index: ${{ inputs.java-index }}

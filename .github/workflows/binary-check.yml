@@ -57,7 +57,7 @@ jobs:
           extraKey: ${{ inputs.extra-coursier-cache-key }}
 
       - name: Install Adoptium Temurin OpenJDK
-        uses: coursier/setup-action@v1
+        uses: coursier/setup-action@v2
         with:
           jvm: adoptium:${{ inputs.java }}
           jvm-index: ${{ inputs.java-index }}
