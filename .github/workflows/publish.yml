@@ -43,7 +43,7 @@ jobs:
           sudo echo "127.0.0.1 repo.scala-sbt.org" | sudo tee -a /etc/hosts
           sudo echo "127.0.0.1 repo.typesafe.com" | sudo tee -a /etc/hosts
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
@@ -51,14 +51,14 @@ jobs:
 
       - name: Coursier Cache
         id: coursier-cache
-        uses: coursier/cache-action@v6
+        uses: coursier/cache-action@v8
         with:
           ignoreJob: ${{ inputs.ignore-job-coursier-cache }}
           ignoreMatrix: true
           extraKey: ${{ inputs.extra-coursier-cache-key }}
 
       - name: Gradle Cache
-        uses: burrunan/gradle-cache-action@v2
+        uses: burrunan/gradle-cache-action@v3
         with:
           build-root-directory: ${{ inputs.gradle-build-root }}
           # Disable caching of ~/.gradle/caches/build-cache-*
@@ -67,7 +67,7 @@ jobs:
           save-maven-dependencies-cache: false
 
       - name: Install Adoptium Temurin OpenJDK
-        uses: coursier/setup-action@v1
+        uses: coursier/setup-action@v3
         with:
           jvm: adoptium:${{ inputs.java }}
           jvm-index: ${{ inputs.java-index }}
