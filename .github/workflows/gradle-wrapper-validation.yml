@@ -18,11 +18,11 @@ jobs:
           sudo echo "127.0.0.1 repo.scala-sbt.org" | sudo tee -a /etc/hosts
           sudo echo "127.0.0.1 repo.typesafe.com" | sudo tee -a /etc/hosts
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # we don't know what commit the last tag was it's safer to get entire repo so previousStableVersion resolves
           fetch-depth: 0
           ref: ${{ inputs.ref }}
 
       - name: Gradle Wrapper Validation
-        uses: gradle/actions/wrapper-validation@v4
+        uses: gradle/actions/wrapper-validation@v6
