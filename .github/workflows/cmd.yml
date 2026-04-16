@@ -172,6 +172,21 @@ jobs:
         run: |
           jq -n -r '$in | to_entries|map("MATRIX_\(.key|ascii_upcase)=\(.value|tostring)")|.[]' --argjson in '${{ toJSON(matrix) }}' >> $GITHUB_ENV
 
+      - name: Set Java installation used by sbt-java-formatter to run google-java-format
+        shell: bash
+        run: |
+          # JAVA_HOME_25_X64 is set by GitHub in all ubuntu-...[-arm] and Windows images, fallbacks are for macOS image
+          formatter_java_home="${JAVA_HOME_25_X64:-${JAVA_HOME_25_arm64:-$JAVA_HOME_25_aarch64}}"
+          [ -n "$formatter_java_home" ] || {
+            echo "None of JAVA_HOME_25_X64, JAVA_HOME_25_arm64, or JAVA_HOME_25_aarch64 is set"
+            exit 1
+          }
+          [ -x "$formatter_java_home/bin/java" ] || {
+            echo "No executable java found at $formatter_java_home/bin/java"
+            exit 1
+          }
+          echo "SBT_JAVAFMT_JAVA_HOME=$formatter_java_home" >> "$GITHUB_ENV"
+
       - name: Run command
         run: ${{ inputs.cmd }}
         env:
