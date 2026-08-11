@@ -72,3 +72,8 @@ playframework/playframework@2.8.x:
 
 #playframework/play-scala-angular-seed:
 
+  # Scalafmt settings
+  - files:
+      - .scalafmt.conf
+    repos: |
+      playframework/play-soap
