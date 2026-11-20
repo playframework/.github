@@ -31,6 +31,10 @@ on:
         type: string
         required: false
         default: "[]"
+      fail-fast:
+        type: boolean
+        required: false
+        default: true
       cmd:
         type: string
         required: true
@@ -101,6 +105,7 @@ jobs:
     needs: prepare-matrix
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: ${{ inputs.fail-fast }}
       # WA: https://github.community/t/reusable-workflow-with-strategy-matrix/205676/6
       matrix: ${{fromJson(needs.prepare-matrix.outputs.matrix)}}
     steps:

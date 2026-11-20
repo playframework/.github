@@ -51,6 +51,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 | add-dimensions               | 2.0.0 | :heavy_minus_sign: | ''      | Other matrix dimensions (json object)           |
 | include                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix include's (json object array)            |
 | exclude                      | 2.0.0 | :heavy_minus_sign: | []      | Matrix exclude's (json object array)            |
+| fail-fast                    | 4.2.0 | :heavy_minus_sign: | true    | Cancel other matrix jobs when one fails         |
 | cache-key                    | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
 | cache-path                   | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
 | env                          | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
