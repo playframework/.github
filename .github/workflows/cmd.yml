@@ -50,6 +50,10 @@ on:
         type: string
         required: false
         default: ""
+      sbt-cache-namespace:
+        type: string
+        required: false
+        default: ""
       ignore-job-coursier-cache:
         type: boolean
         required: false
@@ -159,6 +163,33 @@ jobs:
 
       - name: Install sbt
         uses: sbt/setup-sbt@v1
+        with:
+          disk-cache: ${{ inputs.sbt-cache-namespace == '' }}
+
+      - name: Prepare sbt build cache key
+        id: sbt-cache-key
+        if: inputs.sbt-cache-namespace != ''
+        shell: bash
+        env:
+          CACHE_NAMESPACE: ${{ inputs.sbt-cache-namespace }}
+          CACHE_MATRIX: ${{ toJSON(matrix) }}
+          BUILD_HASH: ${{ hashFiles('**/*.sbt', '**/project/**/*.scala', '**/project/**/*.java', '**/project/**/*.properties') }}
+        run: |
+          jdk_hash=$(java -version 2>&1 | sha256sum | cut -d ' ' -f 1)
+          matrix_hash=$(printf '%s' "$CACHE_MATRIX" | jq -cS . | sha256sum | cut -d ' ' -f 1)
+          cache_prefix="sbt-build-v1-$RUNNER_OS-$RUNNER_ARCH-$CACHE_NAMESPACE-$jdk_hash-$matrix_hash"
+          echo "prefix=$cache_prefix" >> "$GITHUB_OUTPUT"
+          echo "build-prefix=$cache_prefix-$BUILD_HASH" >> "$GITHUB_OUTPUT"
+
+      - name: sbt build cache
+        if: inputs.sbt-cache-namespace != ''
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/sbt
+          key: ${{ steps.sbt-cache-key.outputs.build-prefix }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ${{ steps.sbt-cache-key.outputs.build-prefix }}-
+            ${{ steps.sbt-cache-key.outputs.prefix }}-
 
       - name: Print helpful configs and files and show environment
         run: |
