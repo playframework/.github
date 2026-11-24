@@ -71,6 +71,9 @@ on:
         required: false
         default: ""
 
+env:
+  SBT_CACHE_TEST_RESULT: ${{ github.event_name != 'schedule' }}
+
 jobs:
   prepare-matrix:
     name: Prepare Matrix
