@@ -139,6 +139,7 @@ This workflow is used for validate binary compatibility the current version.
 | ref                       | 2.0.0 | :heavy_minus_sign: | ''      | Branch, tag or SHA for checkout          |
 | java                      | 1.0.0 | :heavy_minus_sign: | 17      | _AdoptJDK_ version                       |
 | java-index                | 3.3.1 | :heavy_minus_sign: | ''      | URL to JVM index source file             |
+| sbt-cache-namespace       | 4.3.0 | :heavy_minus_sign: | '' | Job-specific namespace for sbt 2 cache snapshots; empty uses `sbt/setup-sbt` defaults |
 | run-scheduled-in-forks    | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                  |
 | ignore-job-coursier-cache | 3.4.0 | :heavy_minus_sign: | true    | `ignoreJob` parameter for Coursier Cache |
 | extra-coursier-cache-key  | 3.4.0 | :heavy_minus_sign: | ''      | `extraKey` parameter for Coursier Cache  |
@@ -148,6 +149,8 @@ This workflow is used for validate binary compatibility the current version.
 ```yaml
 uses: playframework/.github/.github/workflows/binary-check.yml@v3
 ```
+
+The optional `sbt-cache-namespace` input uses the snapshot policy described for the [Universal CMD task](#universal-cmd-task), with the selected Java version as its matrix dimension. Use a distinct namespace such as `binary-check`.
 
 ### Validate Gradle Wrapper
 
