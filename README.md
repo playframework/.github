@@ -54,6 +54,7 @@ Every matrix dimension will be access by environment variable like `MATRIX_$(upp
 | fail-fast                    | 4.2.0 | :heavy_minus_sign: | true    | Cancel other matrix jobs when one fails         |
 | cache-key                    | 2.0.0 | :heavy_minus_sign: | ''      | Key of custom cache                             |
 | cache-path                   | 2.0.0 | :heavy_minus_sign: | ''      | Path of custom cache                            |
+| sbt-cache-namespace          | 4.3.0 | :heavy_minus_sign: | '' | Job-specific namespace for sbt 2 cache snapshots; empty uses `sbt/setup-sbt` defaults |
 | env                          | 2.0.0 | :heavy_minus_sign: | ''      | Custom ENV vars                                 |
 | run-scheduled-in-forks       | 3.1.1 | :heavy_minus_sign: | false   | Run by schedule in fork                         |
 | gradle-build-root            | 3.3.0 | :heavy_minus_sign: | ''      | Directory for Gradle builds                     |
@@ -78,6 +79,12 @@ with:
   env: |
     CUSTOM_VAR=value
 ```
+
+Set `sbt-cache-namespace` to a distinct name for each job, such as `unit-tests`, to persist sbt 2's action cache (AC) and content-addressable storage (CAS) in `~/.cache/sbt`. An empty namespace keeps the disk cache managed by `sbt/setup-sbt`.
+
+Snapshots are partitioned by runner OS/architecture, namespace, installed JDK and complete matrix. Keys also include a hash of the sbt build definition and the workflow run ID/attempt, so each successful job saves a fresh snapshot. Restores try the same build definition first, then fall back within the same partition; sbt decides which cached task results can be reused.
+
+Scheduled runs still restore and save build caches. The workflow sets `SBT_CACHE_TEST_RESULT=false` for scheduled runs so sbt 2 executes tests again; other events use `true`.
 
 ### Publishing to Sonatype
 
