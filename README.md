@@ -80,6 +80,8 @@ with:
     CUSTOM_VAR=value
 ```
 
+For the custom `cache-key`/`cache-path` cache, `cmd` receives `CACHE_HIT_CUSTOM=true` only on an exact key match. Commands can check this value before regenerating restored files; a miss, partial match or skipped cache step must still run the producer.
+
 Set `sbt-cache-namespace` to a distinct name for each job, such as `unit-tests`, to persist sbt 2's action cache (AC) and content-addressable storage (CAS) in `~/.cache/sbt`. An empty namespace keeps the disk cache managed by `sbt/setup-sbt`.
 
 Snapshots are partitioned by runner OS/architecture, namespace, installed JDK and complete matrix. Keys also include a hash of the sbt build definition and the workflow run ID/attempt, so each successful job saves a fresh snapshot. Restores try the same build definition first, then fall back within the same partition; sbt decides which cached task results can be reused.

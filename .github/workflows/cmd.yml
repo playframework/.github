@@ -149,6 +149,7 @@ jobs:
           save-maven-dependencies-cache: false
 
       - name: Custom Cache
+        id: custom-cache
         uses: actions/cache@v6
         if: ${{ inputs.cache-key != '' && inputs.cache-path != '' }}
         with:
@@ -215,6 +216,7 @@ jobs:
         run: ${{ inputs.cmd }}
         env:
           CACHE_HIT_COURSIER: ${{ steps.coursier-cache.outputs.cache-hit-coursier }}
+          CACHE_HIT_CUSTOM: ${{ steps.custom-cache.outputs.cache-hit }}
 
       - name: Cleanup before cache
         shell: bash
