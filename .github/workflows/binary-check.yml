@@ -32,6 +32,9 @@ on:
         required: false
         default: false
 
+env:
+  COURSIER_MAX_THROTTLE_WAIT: "10 min"
+
 jobs:
   cmd:
     name: JDK ${{ inputs.java }}
