@@ -76,6 +76,7 @@ on:
         default: ""
 
 env:
+  COURSIER_MAX_THROTTLE_WAIT: "10 min"
   SBT_CACHE_TEST_RESULT: ${{ github.event_name != 'schedule' }}
 
 jobs:
